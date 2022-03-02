@@ -1,0 +1,39 @@
+config MS_SPINAND
+  select MTD_NAND
+  tristate "SPI NAND"
+  default n
+
+---help---
+Enable compilation option for driver SPI NAND Flash.
+
+if MS_SPINAND
+config SS_SPINAND_WP
+    bool "SPINAND Flash Write Protect Support"
+    default n
+    depends on MS_SPINAND
+    help
+      Support SPINAND flash write protect function.
+endif
+
+if MS_SPINAND
+choice
+	prompt "READ"
+	default AUTO_DETECT
+config AUTO_DETECT
+  bool "Use fast read"
+config NAND_QUAL_READ
+	bool "Use quad write"
+endchoice
+
+
+endif
+if MS_SPINAND
+choice
+	prompt "WRITE"
+	default AUTO_DETECT_WRITE
+config AUTO_DETECT_WRITE
+  bool "Use fast write"
+config NAND_QUAL_WRITE
+	bool "Use quad write"
+endchoice
+endif
